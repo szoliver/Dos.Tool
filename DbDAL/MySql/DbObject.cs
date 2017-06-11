@@ -698,12 +698,11 @@ namespace Dos.DbObjects.MySQL
                                 break;
                         }
                     }
-                    dr["IsIdentity"] = "";
+                    dr["DeText"] = "";
                     if ((!Object.Equals(reader["Comment"], null)) && (!Object.Equals(reader["Comment"], System.DBNull.Value)))
                     {
-
-                        string tname = reader["Comment"].GetType().Name;
-                        switch (tname)
+                        string cname = reader["Comment"].GetType().Name;
+                        switch (cname)
                         {
                             case "Byte[]":
                                 dr["DeText"] = Encoding.Default.GetString((Byte[])reader["Comment"]);
@@ -715,12 +714,29 @@ namespace Dos.DbObjects.MySQL
                                 dr["DeText"] = reader["Comment"].ToString();
                                 break;
                         }
-                        if (dr["DeText"].ToString().Trim() == "auto_increment")
+                    }
+                    dr["IsIdentity"] = "";
+                    if ((!Object.Equals(reader["Extra"], null)) && (!Object.Equals(reader["Extra"], System.DBNull.Value)))
+                    {
+
+                        string tname = reader["Extra"].GetType().Name;
+                        switch (tname)
+                        {
+                            case "Byte[]":
+                                dr["IsIdentity"] = Encoding.Default.GetString((Byte[])reader["Extra"]);
+                                break;
+                            case "":
+                                dr["IsIdentity"] = "";
+                                break;
+                            default:
+                                dr["IsIdentity"] = reader["Extra"].ToString();
+                                break;
+                        }
+                        if (dr["IsIdentity"].ToString().Trim() == "auto_increment")
                         {
                             dr["IsIdentity"] = "√";
                         }
                     }
-
                     columnsTables.Rows.Add(dr);
                     n++;
                 }
