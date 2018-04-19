@@ -135,7 +135,7 @@ namespace Dos.DbObjects.MySQL
                 {
                     connect.Open();
                 }
-                dbCommand.CommandText = "use " + DbName + "";
+                dbCommand.CommandText = "use `" + DbName + "`";
                 dbCommand.ExecuteNonQuery();
                 return dbCommand;
 
